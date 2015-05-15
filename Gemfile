@@ -9,6 +9,7 @@ gem 'jquery-rails'
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
 gem 'turbolinks'
+gem 'twitter-bootstrap-rails'
 gem 'uglifier', '>= 1.3.0'
 
 group :development, :test do
