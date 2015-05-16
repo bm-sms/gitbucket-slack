@@ -13,3 +13,35 @@
  *= require_tree .
  *= require_self
  */
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
+
+body {
+  background-color: #fff;
+}
+
+input[type="submit"] {
+  background-color: #6F5499;
+  border-color: #CDBFE3;
+  color: #CDBFE3;
+
+  &:hover {
+    color: #6F5499;
+  }
+}
+
+.lead {
+  font-size: 36px;
+}
+
+.sub-lead {
+  font-size: 21px;
+}
+
+.bs-docs-mashead {
+  background-color: #6F5499;
+  color: #CDBFE3;
+  height: 460px;
+  text-align: center;
+  text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
+}

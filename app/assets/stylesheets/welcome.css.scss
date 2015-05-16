@@ -1,0 +1,14 @@
+.generate {
+  text-align: center;
+  text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
+
+  > a {
+    background-color: #6F5499;
+    border-color: #CDBFE3;
+    color: #CDBFE3;
+
+    &:hover {
+      color: #6F5499;
+    }
+  }
+}

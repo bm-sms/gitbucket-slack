@@ -1,0 +1,8 @@
+%main.bs-docs-mashead
+  .container
+    %span
+      = image_tag 'gitbucket.png', width: '160px'
+    %p.lead
+      Generate hook Gitbucket activities to notify to slack
+  .generate
+    = link_to 'Generate Hook', new_hook_path, class: 'btn btn-outline-inverse btn-lg btn-default'
