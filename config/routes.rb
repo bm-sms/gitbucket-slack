@@ -1,3 +1,9 @@
 Rails.application.routes.draw do
-  resources :hooks, only: %i(new create)
+  root to: 'welcome#index'
+
+  resources :hooks, only: %i(new create show) do
+    member do
+      post :update
+    end
+  end
 end
