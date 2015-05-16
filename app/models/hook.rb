@@ -8,6 +8,39 @@ class Hook < ActiveRecord::Base
   end
 
   def notify(payload)
+    if pull_request = payload['pull_request']
+      notify_pull_request(pull_request)
+    elsif commits = payload['commits']
+      notify_commits(commits)
+    end
+  end
+
+  private
+
+  def notify_pull_request(pull_request)
+    post do |requester|
+      message = <<-EOM.strip_heredoc
+        #{pull_request['user']['login']} opened pull request #{pull_request['html_url']}
+
+        *#{pull_request['title']}*
+        #{pull_request['body']}
+      EOM
+
+      requester.call(message)
+    end
+  end
+
+  def notify_commits(commits)
+    post do |requester|
+      commits.each do |commit|
+        message = "#{commit['message']} commited by #{commit['committer']['name']}"
+
+        requester.call(message)
+      end
+    end
+  end
+
+  def post
     uri = URI.parse(slack_hook)
 
     http = Net::HTTP.new(uri.host, uri.port)
@@ -15,27 +48,9 @@ class Hook < ActiveRecord::Base
 
     req = Net::HTTP::Post.new(uri.request_uri)
 
-    if pull_request = payload['pull_request']
-      notify_pull_request(pull_request, http, req)
-    elsif commits = payload['commits']
-      notify_commits(commits, http, req)
-    end
-  end
-
-  private
-
-  def notify_pull_request(pull_request, http, req)
-    message = "#{pull_request['user']['login']} opened pull request #{pull_request['html_url']}\r\n*#{pull_request['title']}*\r\n#{pull_request['body']}"
-
-    req.set_form_data(payload: {text: message}.to_json)
-    http.request(req)
-  end
-
-  def notify_commits(commits, http, req)
-    commits.each do |commit|
-      message = "#{commit['message']} commited by #{commit['committer']['name']}"
-      req.set_form_data(payload: {text: message}.to_json)
-      http.request(req)
-    end
+    yield ->(message) {
+        req.set_form_data(payload: {text: message}.to_json)
+        http.request(req)
+      }
   end
 end
