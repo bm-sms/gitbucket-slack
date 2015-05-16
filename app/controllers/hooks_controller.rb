@@ -6,9 +6,9 @@ class HooksController < ApplicationController
   end
 
   def create
-    hook = Hook.new_endpoint
+    hook = Hook.new_endpoint(hook_params)
 
-    if hook.update(hook_params)
+    if hook.save
       redirect_to hook_path(hook)
     else
       render :new

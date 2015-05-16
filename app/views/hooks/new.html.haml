@@ -5,6 +5,6 @@
   .col-md-3
   .col-md-6
     = simple_form_for @hook, wrapper: :horizontal_form do |f|
-      = f.input :slack_hook, label: 'Slack hook endpoint'
+      = f.input :slack_hook, label: 'Slack hook endpoint', required: true
       = f.button :submit, class: 'btn-lg', style: 'margin-top: 30px'
   .col-md-3
