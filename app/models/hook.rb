@@ -3,8 +3,8 @@ class Hook < ActiveRecord::Base
 
   validates_presence_of :slack_hook
 
-  def self.new_endpoint
-    new(id: Digest::MD5.new.update(Random.new_seed.to_s))
+  def self.new_endpoint(params = {})
+    new(params.merge(id: Digest::MD5.new.update(Random.new_seed.to_s)))
   end
 
   def notify(payload)
