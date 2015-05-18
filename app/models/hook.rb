@@ -12,6 +12,8 @@ class Hook < ActiveRecord::Base
       notify_pull_request(pull_request)
     elsif commits = payload['commits']
       notify_commits(commits)
+    elsif comment = payload['comment']
+      notify_comment(comment)
     end
   end
 
@@ -37,6 +39,18 @@ class Hook < ActiveRecord::Base
 
         requester.call(message)
       end
+    end
+  end
+
+  def notify_comment(comment)
+    post do |requester|
+      message = <<-EOM.strip_heredoc
+        #{comment['user']['login']} commented on #{comment['html_url']}
+
+        #{comment['body']}
+      EOM
+
+      requester.call(message)
     end
   end
 
