@@ -23,7 +23,7 @@ class Hook < ActiveRecord::Base
 
   private
 
-  def notify_pull_request(pull_request, payload)
+  def notify_pull_request(pull_request)
     post do |requester|
       message = <<-EOM.strip_heredoc
         #{pull_request['user']['login']} opened pull request #{pull_request['html_url']}
